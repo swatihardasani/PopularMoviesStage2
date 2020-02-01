@@ -24,7 +24,7 @@ public class DetailActivity extends AppCompatActivity {
     String[] movieObj;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
@@ -35,11 +35,11 @@ public class DetailActivity extends AppCompatActivity {
         mReleaseDate = (TextView) findViewById(R.id.release_date_tv);
 
         Intent intent = getIntent();
-        if(intent == null){
+        if (intent == null) {
             closeOnError();
         }
         int adapterPosition = intent.getIntExtra(EXTRA_POSITION, DEFAULT_POSITION);
-        if(adapterPosition == DEFAULT_POSITION){
+        if (adapterPosition == DEFAULT_POSITION) {
             closeOnError();
             return;
         }
@@ -60,21 +60,8 @@ public class DetailActivity extends AppCompatActivity {
 
         String releaseDate = getIntent().getStringExtra("releaseDate");
         mReleaseDate.setText(releaseDate);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
+
     private void closeOnError() {
         finish();
         Toast.makeText(this, R.string.error_message, Toast.LENGTH_SHORT).show();

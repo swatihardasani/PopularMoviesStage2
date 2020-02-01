@@ -42,10 +42,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         Picasso.get().load(movieBinder).placeholder(R.drawable.movies_placeholder)
                 .error(R.drawable.movies_placeholder_error)
                 .into(movieViewHolder.mMovieImageView);
-
-
-
-
     }
 
     @Override
@@ -57,7 +53,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
     public class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public ImageView mMovieImageView;
 
-        public MovieViewHolder(View view){
+        public MovieViewHolder(View view) {
             super(view);
 
             mMovieImageView = (ImageView) view.findViewById(R.id.movies_display);
@@ -65,11 +61,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         }
 
         @Override
-        public void onClick(View view){
+        public void onClick(View view) {
             int adpaterPosition = getAdapterPosition();
             mClickHandler.onClick(adpaterPosition);
         }
-
 
     }
 

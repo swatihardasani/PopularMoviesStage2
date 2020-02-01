@@ -12,11 +12,7 @@ import java.util.Scanner;
 public class MovieUtils {
     private static final String Movie_URL_Popular = "https://api.themoviedb.org/3/movie";
 
-
-
     private static final String Movie_Base_Url = Movie_URL_Popular;
-
-
 
     final static String PARAM_APIKey = "api_key";
 

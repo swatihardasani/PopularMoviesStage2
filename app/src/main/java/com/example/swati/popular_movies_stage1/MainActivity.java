@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
 
     private ProgressBar mLoadingIndicator;
 
-    String sortMovies = "373df7aa401df4855afbd8d2f2ed83ad";
+    String sortMovies = "api_key";
 
     Movie[] simpleJSONMovieData;
 
@@ -66,16 +66,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
         mRecyclerView.setHasFixedSize(true);
 
 
-
-
-
-
-
         loadMovieData();
-
-
-
-
     }
 
     @Override
