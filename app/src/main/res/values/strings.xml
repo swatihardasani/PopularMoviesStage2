@@ -1,10 +1,12 @@
 <resources>
-    <string name="app_name">Popular-Movies-Stage1</string>
+    <string name="app_name">Popular-Movies-Stage2</string>
     <string name="error_message">An error has occurred.</string>
     <string name="detail_movie_title">Movie Title:</string>
     <string name="detail_plot_synopsis">Plot Synopis</string>
     <string name="detail_user_rating">Vote Average:</string>
     <string name="detail_release_date">Release Date:</string>
+    <string name="detail_watch_trailer">Watch Trailer</string>
+    <string name="detail_Reviews">Reviews</string>
 
     <!-- Content descriptions-->
     <string name="movie_poster_content_description">Movie Poster</string>
@@ -12,4 +14,9 @@
     <!-- Menu -->
     <string name="action_sort_popular">Popular Movies</string>
     <string name="action_sort_topRated">TopRated Movies</string>
+    <string name="action_sort_favorite">Favorite Movies</string>
+    <string name="content_authority">com.example.swati.popular_movies_stage1</string>
+
+
+
 </resources>

@@ -1,9 +1,12 @@
 package com.example.swati.popular_movies_stage1;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,9 +21,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.swati.popular_movies_stage1.data.FavoriteMoviesContract;
 import com.example.swati.popular_movies_stage1.utilities.JSONMovieUtils;
 import com.example.swati.popular_movies_stage1.utilities.MovieUtils;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import Models.Movie;
 
@@ -33,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
 
     private ProgressBar mLoadingIndicator;
 
-    String sortMovies = "api_key";
+    String sortMovies = "373df7aa401df4855afbd8d2f2ed83ad";
 
     Movie[] simpleJSONMovieData;
 
@@ -49,22 +55,15 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
         setContentView(R.layout.activity_main);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview_movies);
-
         mErrorMessageDisplay = (TextView) findViewById(R.id.tv_error_message_display);
-
         mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
 
         GridLayoutManager layoutManager = new GridLayoutManager(this, numOfColumns);
 
         mMoviesAdapter = new MoviesAdapter(this);
-
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mMoviesAdapter);
-
-
-
         mRecyclerView.setHasFixedSize(true);
-
 
         loadMovieData();
     }
@@ -82,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
         intentToStartDetailActivity.putExtra("overview", simpleJSONMovieData[adapterPosition].getPlotSynopsis());
         intentToStartDetailActivity.putExtra("userRating", simpleJSONMovieData[adapterPosition].getUserRating());
         intentToStartDetailActivity.putExtra("releaseDate",simpleJSONMovieData[adapterPosition].getReleaseDate());
+        intentToStartDetailActivity.putExtra("id", simpleJSONMovieData[adapterPosition].getId());
 
         startActivity(intentToStartDetailActivity);
 
@@ -102,18 +102,46 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
 
     }
 
+    private void loadFavoriteMovieData(){
+        // algorithm
+        // sql reading
+
+        List<Movie> movieList = new ArrayList();
+        Context context = getApplicationContext();
+        ContentResolver contentResolver = context.getContentResolver();
+        Cursor c = contentResolver.query(FavoriteMoviesContract.AddFavoriteMovies.CONTENT_URI,null,null,null,null);
+        if (c.moveToFirst()) {
+            do{
+                int movieId = c.getInt(c.getColumnIndex((FavoriteMoviesContract.AddFavoriteMovies.COLUMN_MOVIES_ID)));
+                String movieName = c.getString(c.getColumnIndex(FavoriteMoviesContract.AddFavoriteMovies.COLUMN_MOVIES_NAME));
+                String moviePoster = c.getString(c.getColumnIndex(FavoriteMoviesContract.AddFavoriteMovies.COLUMN_MOVIES_POSTER));
+                String movieUserRating = c.getString(c.getColumnIndex(FavoriteMoviesContract.AddFavoriteMovies.COLUMN_MOVIES_USER_RATING));
+                String movieReleaseDate = c.getString(c.getColumnIndex(FavoriteMoviesContract.AddFavoriteMovies.COLUMN_MOVIES_RELEASE_DATE));
+                String movieOverview = c.getString(c.getColumnIndex(FavoriteMoviesContract.AddFavoriteMovies.COLUMN_MOVIES_OVERVIEW));
+
+                movieList.add(new Movie(movieId, movieName, moviePoster, movieReleaseDate, movieOverview, movieUserRating));
+
+            } while (c.moveToNext());
+        }
+
+       simpleJSONMovieData = movieList.toArray(new Movie[movieList.size()]);
+
+
+        mMoviesAdapter.setMovieData(simpleJSONMovieData);
+    }
+
 
     private void showMovieDataView() {
         /* First, make sure the error is invisible */
         mErrorMessageDisplay.setVisibility(View.INVISIBLE);
         // COMPLETED (44) Show mRecyclerView, not mWeatherTextView
-        /* Then, make sure the weather data is visible */
+        /* Then, make sure the weather com.example.swati.popular_movies_stage1.data is visible */
         mRecyclerView.setVisibility(View.VISIBLE);
     }
 
     private void showErrorMessage() {
         // COMPLETED (44) Hide mRecyclerView, not mWeatherTextView
-        /* First, hide the currently visible data */
+        /* First, hide the currently visible com.example.swati.popular_movies_stage1.data */
         mRecyclerView.setVisibility(View.INVISIBLE);
         /* Then, show the error */
         mErrorMessageDisplay.setVisibility(View.VISIBLE);
@@ -152,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
             mLoadingIndicator.setVisibility(View.INVISIBLE);
             if (movieData != null) {
                 showMovieDataView();
-                // COMPLETED (45) Instead of iterating through every string, use mForecastAdapter.setWeatherData and pass in the weather data
+                // COMPLETED (45) Instead of iterating through every string, use mForecastAdapter.setWeatherData and pass in the weather com.example.swati.popular_movies_stage1.data
                 mMoviesAdapter.setMovieData(movieData);
             } else {
                 showErrorMessage();
@@ -180,6 +208,13 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
         if(id == R.id.sort_topRated_movies) {
             sortBy = "top_rated";
             loadMovieData();
+            return true;
+        }
+
+        // todo: add favorite sort
+        if(id == R.id.sort_favorite_movies){
+            sortBy = "favorite";
+            loadFavoriteMovieData();
             return true;
         }
 

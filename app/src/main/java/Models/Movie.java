@@ -7,12 +7,14 @@ public class Movie {
     private String releaseDate;
     private String plotSynopsis;
     private String userRating;
+    private int id;
 
     public Movie(){
 
     }
 
-    public Movie(String nameOfMovie, String poster, String releaseDate, String plotSynopsis, String userRating){
+    public Movie(int id, String nameOfMovie, String poster, String releaseDate, String plotSynopsis, String userRating){
+        this.id = id;
         this.nameOfMovie = nameOfMovie;
         this.poster = poster;
         this.releaseDate = releaseDate;
@@ -60,5 +62,17 @@ public class Movie {
     public void setUserRating(String userRating){
         this.userRating = userRating;
     }
+
+    public int getId(){
+        return id;
+    }
+
+    public void setId(int id){
+        this.id = id;
+    }
+
+
+
+
 
 }
