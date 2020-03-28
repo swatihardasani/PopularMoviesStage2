@@ -104,7 +104,7 @@ public class DetailActivity extends AppCompatActivity {
         mTrailerRecyclerView.setAdapter(mTrailerAdapter);
 
 
-        mTrailerErrorMessage = (TextView) findViewById(R.id.tv_error_message_display_reviews);
+        mReviewErrorMessage = (TextView) findViewById(R.id.tv_error_message_display_reviews);
 
 
         mReviewRecyclerView = (RecyclerView) findViewById(R.id.reviews_rv);
@@ -224,13 +224,14 @@ public class DetailActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Trailer[] trailerData){
-            if(trailerData != null){
-                mTrailerAdapter = new TrailerAdapter(trailerData, DetailActivity.this);
-                mTrailerRecyclerView.setAdapter(mTrailerAdapter);
-            }
-            else{
-                mReviewErrorMessage.setVisibility(View.VISIBLE);
-            }
+           if(trailerData != null) {
+               mTrailerAdapter = new TrailerAdapter(trailerData, DetailActivity.this);
+               mTrailerRecyclerView.setAdapter(mTrailerAdapter);
+           }
+           else{
+               mTrailerErrorMessage.setVisibility(View.VISIBLE);
+           }
+
 
         }
     }
@@ -275,7 +276,7 @@ public class DetailActivity extends AppCompatActivity {
 
             }
             else {
-                mTrailerErrorMessage.setVisibility(View.VISIBLE);
+                mReviewErrorMessage.setVisibility(View.VISIBLE);
             }
 
         }
